@@ -1,4 +1,21 @@
 
+package {
+    default_applicable_licenses: ["external_zucchini_license"],
+}
+
+// Added automatically by a large-scale-change
+// See: http://go/android-license-faq
+license {
+    name: "external_zucchini_license",
+    visibility: [":__subpackages__"],
+    license_kinds: [
+        "legacy_notice",
+    ],
+    license_text: [
+        "LICENSE",
+    ],
+}
+
 filegroup {
     name: "libzucchini_srcs",
 
