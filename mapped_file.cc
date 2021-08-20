@@ -49,7 +49,7 @@ MappedFileWriter::MappedFileWriter(const base::FilePath& file_path,
 
 MappedFileWriter::~MappedFileWriter() {
   if (!HasError() && delete_behavior_ == kManualDeleteOnClose &&
-      !file_path_.empty() && !base::DeleteFile(file_path_)) {
+      !file_path_.empty() && !base::DeleteFile(file_path_, false)) {
     error_ = "Failed to delete file.";
   }
 }

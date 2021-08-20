@@ -24,6 +24,7 @@ filegroup {
         "image_index.cc",
         "imposed_ensemble_matcher.cc",
         "io_utils.cc",
+        "mapped_file.cc",
         "patch_reader.cc",
         "patch_writer.cc",
         "reference_bytes_mixer.cc",
@@ -37,6 +38,16 @@ filegroup {
         "zucchini_apply.cc",
         "zucchini_gen.cc",
         "zucchini_tools.cc",
+    ],
+}
+
+filegroup {
+    name: "zucchini_srcs",
+    srcs: [
+        "main_utils.cc",
+        "zucchini_commands.cc",
+        "zucchini_integration.cc",
+        "zucchini_main_aosp.cc",
     ],
 }
 
@@ -98,26 +109,6 @@ filegroup {
     ],
 }
 
-// The aosp versions of sources are preprocesseed with include
-// re-written in an AOSP compatible way. Some headers, such as
-// absl, are simply redirected to STL equivalent.
-gensrcs {
-    name: "libzucchini_aosp_srcs",
-    cmd: "$(location aosp/preprocess.py) $(in) $(out)",
-    tool_files: ["aosp/preprocess.py"],
-    srcs: [":libzucchini_srcs"],
-    output_extension: "cc",
-}
-
-gensrcs {
-    name: "libzucchini_aosp_headers",
-    cmd: "$(location aosp/preprocess.py) $(in) $(out)",
-    tool_files: ["aosp/preprocess.py"],
-    srcs: [":libzucchini_headers"],
-    export_include_dirs: ["."],
-    output_extension: "h",
-}
-
 
 cc_library {
     name: "libzucchini",
@@ -126,11 +117,9 @@ cc_library {
     // instead of loacl ones. As the generated headers contain
     // incorrect include paths
     include_build_directory: false,
-    srcs: [":libzucchini_aosp_srcs"],
-    generated_headers: ["libzucchini_aosp_headers"],
+    srcs: [":libzucchini_srcs"],
     local_include_dirs: ["aosp/include"],
-    export_generated_headers: ["libzucchini_aosp_headers"],
-    export_include_dirs: ["aosp/include"],
+    export_include_dirs: ["aosp/include/components"],
     static_libs: [
         "libchrome",
         "libcutils",
@@ -143,4 +132,25 @@ cc_library {
         "-Wno-unused-parameter",
     ],
     visibility: ["//system/update_engine:__subpackages__"],
+}
+
+cc_binary {
+    name: "zucchini",
+    host_supported: true,
+    device_supported: true,
+    srcs: [":zucchini_srcs"],
+    include_build_directory: false,
+    local_include_dirs: ["aosp/include"],
+    static_libs: [
+        "libchrome",
+        "libcutils",
+        "libzucchini",
+    ],
+    shared_libs: [
+        "liblog",
+        "libbase",
+    ],
+    cflags: [
+        "-Wno-unused-parameter",
+    ],
 }
