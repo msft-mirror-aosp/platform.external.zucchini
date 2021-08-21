@@ -126,7 +126,6 @@ filegroup {
     ],
 }
 
-
 cc_library {
     name: "libzucchini",
     host_supported: true,
@@ -136,7 +135,10 @@ cc_library {
     include_build_directory: false,
     srcs: [":libzucchini_srcs"],
     local_include_dirs: ["aosp/include"],
-    export_include_dirs: ["aosp/include/components"],
+    export_include_dirs: [
+        "aosp/include/components",
+        "aosp/include/",
+    ],
     static_libs: [
         "libchrome",
         "libcutils",
@@ -162,8 +164,6 @@ cc_binary {
         "libchrome",
         "libcutils",
         "libzucchini",
-    ],
-    shared_libs: [
         "liblog",
         "libbase",
     ],
