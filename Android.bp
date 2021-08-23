@@ -111,6 +111,8 @@ filegroup {
 cc_library {
     name: "libzucchini",
     host_supported: true,
+    device_supported: true,
+    recovery_available: true,
     // Need this to ensure that the generated headers are used,
     // instead of loacl ones. As the generated headers contain
     // incorrect include paths
