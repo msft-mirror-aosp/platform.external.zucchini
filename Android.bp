@@ -152,7 +152,10 @@ cc_library {
     cflags: [
         "-Wno-unused-parameter",
     ],
-    visibility: ["//system/update_engine:__subpackages__"],
+    visibility: [
+        "//external/puffin:__subpackages__",
+        "//system/update_engine:__subpackages__",
+    ],
 }
 
 cc_binary {
