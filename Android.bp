@@ -1,3 +1,21 @@
+
+package {
+    default_applicable_licenses: ["external_zucchini_license"],
+}
+
+// Added automatically by a large-scale-change
+// See: http://go/android-license-faq
+license {
+    name: "external_zucchini_license",
+    visibility: [":__subpackages__"],
+    license_kinds: [
+        "legacy_notice",
+    ],
+    license_text: [
+        "LICENSE",
+    ],
+}
+
 filegroup {
     name: "libzucchini_srcs",
 
@@ -111,6 +129,8 @@ filegroup {
 cc_library {
     name: "libzucchini",
     host_supported: true,
+    device_supported: true,
+    recovery_available: true,
     // Need this to ensure that the generated headers are used,
     // instead of loacl ones. As the generated headers contain
     // incorrect include paths
@@ -132,7 +152,10 @@ cc_library {
     cflags: [
         "-Wno-unused-parameter",
     ],
-    visibility: ["//system/update_engine:__subpackages__"],
+    visibility: [
+        "//external/puffin:__subpackages__",
+        "//system/update_engine:__subpackages__",
+    ],
 }
 
 cc_binary {
