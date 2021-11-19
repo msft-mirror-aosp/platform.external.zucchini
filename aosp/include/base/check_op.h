@@ -19,4 +19,6 @@
 
 #include <base/logging.h>
 
+#define FLAG_WIN_SHARE_DELETE FLAG_SHARE_DELETE
+
 #endif /* __ZUCCHINI_AOSP_BASE_CHECK_OP_H */
