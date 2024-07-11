@@ -8,6 +8,7 @@
 #include <stddef.h>
 
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -19,7 +20,7 @@ namespace zucchini {
 // A vacuous ReferenceReader that produces no references.
 class EmptyReferenceReader : public ReferenceReader {
  public:
-  absl::optional<Reference> GetNext() override;
+  std::optional<Reference> GetNext() override;
 };
 
 // A vacuous EmptyReferenceWriter that does not write.

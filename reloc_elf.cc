@@ -89,7 +89,7 @@ rva_t RelocReaderElf::GetRelocationTarget(elf::Elf64_Rel rel) const {
   return kInvalidRva;
 }
 
-absl::optional<Reference> RelocReaderElf::GetNext() {
+std::optional<Reference> RelocReaderElf::GetNext() {
   offset_t cur_entry_size = cur_section_dimensions_->entry_size;
   offset_t cur_section_dimensions_end =
       base::checked_cast<offset_t>(cur_section_dimensions_->region.hi());
@@ -98,12 +98,12 @@ absl::optional<Reference> RelocReaderElf::GetNext() {
     while (cursor_ >= cur_section_dimensions_end) {
       ++cur_section_dimensions_;
       if (cur_section_dimensions_ == reloc_section_dimensions_.end())
-        return absl::nullopt;
+        return std::nullopt;
       cur_entry_size = cur_section_dimensions_->entry_size;
       cursor_ =
           base::checked_cast<offset_t>(cur_section_dimensions_->region.offset);
       if (cursor_ + cur_entry_size > hi_)
-        return absl::nullopt;
+        return std::nullopt;
       cur_section_dimensions_end =
           base::checked_cast<offset_t>(cur_section_dimensions_->region.hi());
     }
@@ -132,7 +132,7 @@ absl::optional<Reference> RelocReaderElf::GetNext() {
     cursor_ += cur_entry_size;
     return Reference{location, target};
   }
-  return absl::nullopt;
+  return std::nullopt;
 }
 
 /******** RelocWriterElf ********/
