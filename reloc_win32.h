@@ -8,13 +8,13 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include <optional>
 #include <vector>
 
 #include "components/zucchini/address_translator.h"
 #include "components/zucchini/buffer_source.h"
 #include "components/zucchini/buffer_view.h"
 #include "components/zucchini/image_utils.h"
-#include "third_party/abseil-cpp/absl/types/optional.h"
 
 namespace zucchini {
 
@@ -65,9 +65,9 @@ class RelocRvaReaderWin32 {
   RelocRvaReaderWin32(RelocRvaReaderWin32&&);
   ~RelocRvaReaderWin32();
 
-  // Successively visits and returns data for each reloc unit, or absl::nullopt
+  // Successively visits and returns data for each reloc unit, or std::nullopt
   // when all reloc units are found. Encapsulates block transition details.
-  absl::optional<RelocUnitWin32> GetNext();
+  std::optional<RelocUnitWin32> GetNext();
 
  private:
   // Assuming that |block_begin| points to the beginning of a reloc block, loads
@@ -102,7 +102,7 @@ class RelocReaderWin32 : public ReferenceReader {
   ~RelocReaderWin32() override;
 
   // ReferenceReader:
-  absl::optional<Reference> GetNext() override;
+  std::optional<Reference> GetNext() override;
 
  private:
   RelocRvaReaderWin32 reloc_rva_reader_;
