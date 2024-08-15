@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <deque>
 #include <memory>
+#include <optional>
 
 #include "base/logging.h"
 #include "components/zucchini/address_translator.h"
@@ -15,7 +16,6 @@
 #include "components/zucchini/buffer_view.h"
 #include "components/zucchini/image_utils.h"
 #include "components/zucchini/io_utils.h"
-#include "third_party/abseil-cpp/absl/types/optional.h"
 
 namespace zucchini {
 
@@ -37,8 +37,8 @@ class Rel32ReaderX86 : public ReferenceReader {
   const Rel32ReaderX86& operator=(const Rel32ReaderX86&) = delete;
   ~Rel32ReaderX86() override;
 
-  // Returns the next reference, or absl::nullopt if exhausted.
-  absl::optional<Reference> GetNext() override;
+  // Returns the next reference, or std::nullopt if exhausted.
+  std::optional<Reference> GetNext() override;
 
  private:
   ConstBufferView image_;
@@ -93,7 +93,7 @@ class Rel32ReaderArm : public ReferenceReader {
   Rel32ReaderArm(const Rel32ReaderArm&) = delete;
   const Rel32ReaderArm& operator=(const Rel32ReaderArm&) = delete;
 
-  absl::optional<Reference> GetNext() override {
+  std::optional<Reference> GetNext() override {
     while (cur_it_ < rel32_end_ && *cur_it_ < hi_) {
       offset_t location = *(cur_it_++);
       CODE_T code = ADDR_TRAITS::Fetch(view_, location);
@@ -105,7 +105,7 @@ class Rel32ReaderArm : public ReferenceReader {
           return Reference{location, target};
       }
     }
-    return absl::nullopt;
+    return std::nullopt;
   }
 
  private:
